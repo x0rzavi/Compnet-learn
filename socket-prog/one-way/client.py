@@ -10,7 +10,7 @@ s.connect(("127.0.0.1", 12345))
 
 # Message sending loop
 while True:
-    m = input("Enter msg ('exit' to exit): ")
+    m = input("YOU ('exit' to exit): ")
     if m == "exit":
         break
     # Send the message to the server

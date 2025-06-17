@@ -3,14 +3,17 @@ import threading
 
 
 # Continuously receive messages from the client
-def recv(c):
+def recv(c, de):
     while True:
         try:
             m = c.recv(1024)
             if not m:
+                de.set()  # Signal to stop the loop
                 break
-            print("CLIENT:", m.decode())
+            print("\r\033[KCLIENT:", m.decode())
+            print("YOU ('exit' to disconnect): ", end="", flush=True)
         except Exception:
+            de.set()  # Signal to stop the loop
             break
 
 
@@ -22,14 +25,18 @@ s.listen(2)  # at most 2 connections can be queued
 # Accept connections in a loop to handle multiple clients one by one, sequentially
 while True:
     c, a = s.accept()
-    print(f"Connected to {a}")
+    print(f"\nConnected to {a}")
+
+    # Create an event to signal when to disconnect
+    de = threading.Event()
+
     # Start a new thread to handle receiving messages from the client non blockingly
-    threading.Thread(target=recv, args=(c,), daemon=True).start()
+    threading.Thread(target=recv, args=(c, de), daemon=True).start()
 
     # Continuously send messages to the current client
-    while True:
+    while not de.is_set():
         try:
-            m = input("Enter msg ('exit' to disconnect): ")
+            m = input("YOU ('exit' to disconnect): ")
             if m == "exit":
                 break
             c.sendall(m.encode())
@@ -37,3 +44,4 @@ while True:
             break
     # Close the client connection when done with one client
     c.close()
+    print(f"\nDisconnected from {a}")

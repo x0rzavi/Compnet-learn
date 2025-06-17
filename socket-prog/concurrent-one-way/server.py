@@ -4,7 +4,7 @@ import threading
 
 # This server accepts multiple clients and handles each client in a separate thread
 def handle_client(c, a):
-    print(f"Connected to {a}")
+    print(f"\nConnected to {a}")
     # Continuously receive messages from the client
     while True:
         try:
@@ -15,7 +15,7 @@ def handle_client(c, a):
         except Exception:
             break
     c.close()
-    print(f"Client {a} disconnected")
+    print(f"\nClient {a} disconnected")
 
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

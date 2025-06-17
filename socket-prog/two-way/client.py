@@ -8,7 +8,8 @@ def recv(s):
         msg = s.recv(1024)
         if not msg:
             break
-        print("SERVER:", msg.decode())
+        print("\r\033[KSERVER:", msg.decode())
+        print("YOU ('exit' to exit): ", end="", flush=True)
 
 
 s = socket.socket()
@@ -19,7 +20,7 @@ threading.Thread(target=recv, args=(s,), daemon=True).start()
 
 # Continuously send messages to the server
 while True:
-    m = input("Enter msg ('exit' to exit): ")
+    m = input("YOU ('exit' to exit): ")
     if m == "exit":
         break
     s.sendall(m.encode())

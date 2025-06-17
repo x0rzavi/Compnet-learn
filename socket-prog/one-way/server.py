@@ -6,7 +6,7 @@ s.bind(("127.0.0.1", 12345))
 s.listen()
 # Block until a client connects
 c, a = s.accept()
-print(f"Connected to {a}")
+print(f"\nConnected to {a}")
 
 # Message receiving loop
 while True:
@@ -15,7 +15,7 @@ while True:
         m = c.recv(1024).decode("utf-8")
         if not m:  # If no message is received, break the loop, client disconnected
             break
-        print(f"Message: {m}")
+        print(f"CLIENT: {m}")
     except Exception:
         break
 c.close()

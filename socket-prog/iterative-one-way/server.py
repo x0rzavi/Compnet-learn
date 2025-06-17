@@ -8,7 +8,7 @@ s.listen(2)  # up to 2 clients can be queued
 # Accept connections in a loop to handle multiple clients sequentially, one by one
 while True:
     c, a = s.accept()
-    print(f"Connected to {a}")
+    print(f"\nConnected to {a}")
 
     # Continuously receive messages from the client
     while True:
@@ -20,4 +20,5 @@ while True:
         except Exception:
             break
     # Close the client connection when done with one client
+    print(f"\nDisconnected from {a}")
     c.close()
